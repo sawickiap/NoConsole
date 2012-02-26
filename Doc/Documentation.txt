@@ -1,0 +1,9 @@
+================================================================================
+Command line arguments for NoConsole
+
+/SetScriptsDir <Directory>
+Set specified directory to be used to look for script files, instead of default
+or previously specified directories.
+
+/AddScriptsDir <Directory>
+Add specified directory to the list of directories to look for script files.

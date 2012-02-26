@@ -2,9 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <StartWorkingDirectory>F:\Code\NoConsole\Public Code\WorkingDir\</StartWorkingDirectory>
+    <StartArguments>/AddScriptsDir "f:\Code\NoConsole\Intel Code\Scripts"</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <StartWorkingDirectory>F:\Code\NoConsole\Public Code\WorkingDir\</StartWorkingDirectory>
+    <StartArguments>/AddScriptsDir "f:\Code\NoConsole\Intel Code\Scripts"</StartArguments>
   </PropertyGroup>
   <PropertyGroup>
     <PublishUrlHistory>publish\</PublishUrlHistory>

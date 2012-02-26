@@ -19,7 +19,7 @@ namespace NoConsole
         // TODO Set this to false in release version.
         private const bool COMPILED_SCRIPT_INCLUDE_DEBUG_INFORMATION = false;
         
-        public Form1()
+        public Form1(string[] args)
         {
             InitializeComponent();
 
@@ -41,9 +41,55 @@ namespace NoConsole
                 monospacedFont,
                 Directory.GetCurrentDirectory(), // startupDir
                 Application.StartupPath);        // appDir
+
+            // Must be called after Lib is initialzed with ScriptDataDir
+            ParseCommandLine(args);
         }
 
-        private void Init()
+        enum CmdLineArg
+        {
+            None,
+            SetScriptsDir,
+            AddScriptsDir,
+        };
+
+        // Filled by ParseCommandLine, called in constructor.
+        private List<string> m_ScriptDirs = new List<string>();
+
+        private void ParseCommandLine(string[] args)
+        {
+            m_ScriptDirs.Add(Path.Combine(Lib.StartupDir, "Scripts"));
+            m_ScriptDirs.Add(Lib.ScriptDataDir);
+
+            CmdLineArg lastArg = CmdLineArg.None;
+
+            foreach (string arg in args)
+            {
+                if (arg == "/SetScriptsDir")
+                    lastArg = CmdLineArg.SetScriptsDir;
+                else if (arg == "/AddScriptsDir")
+                    lastArg = CmdLineArg.AddScriptsDir;
+                else
+                {
+                    switch (lastArg)
+                    {
+                        case CmdLineArg.AddScriptsDir:
+                            m_ScriptDirs.Add(arg);
+                            break;
+
+                        case CmdLineArg.SetScriptsDir:
+                            m_ScriptDirs.Clear();
+                            m_ScriptDirs.Add(arg);
+                            break;
+
+                        default:
+                            throw new Exception("Invalid command line argument: " + arg);
+                    }
+                }
+            }
+        }
+
+        private void DeferredInit()
         {
             try
             {
@@ -95,13 +141,12 @@ namespace NoConsole
 
                 const string SCRIPT_FILE_MASK = "*.cs";
 
-                string[] scriptFiles = Directory.GetFiles(Path.Combine(Lib.StartupDir, "Scripts"), SCRIPT_FILE_MASK);
-                foreach (string scriptFile in scriptFiles)
-                    LoadScriptFile(scriptFile);
-
-                scriptFiles = Directory.GetFiles(Lib.ScriptDataDir, SCRIPT_FILE_MASK);
-                foreach (string scriptFile in scriptFiles)
-                    LoadScriptFile(scriptFile);
+                foreach (string dir in m_ScriptDirs)
+                {
+                    string[] scriptFiles = Directory.GetFiles(dir, SCRIPT_FILE_MASK);
+                    foreach (string scriptFile in scriptFiles)
+                        LoadScriptFile(scriptFile);
+                }
             }
             catch (Exception ex)
             {
@@ -417,7 +462,7 @@ namespace NoConsole
         private void m_InitTimer_Tick(object sender, EventArgs e)
         {
             m_InitTimer.Enabled = false;
-            Init();
+            DeferredInit();
         }
 
         private const string CONFIG_SELECTED_SCRIPT = "SelectedScript";

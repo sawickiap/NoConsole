@@ -1,0 +1,62 @@
+================================================================================
+Properties
+
+Bool - checkbox
+String - combobox, entering text + dropdown MRU list
+Enum - combobox DropDownList, choice only
+Enum with custom values - combobox, list contains choice items, able to enter custom
+File - combobox for entering path, dropdown MRU list, browse button with OpenFileDialog
+	OpenFileDialog configuration: title, starting path, filter.
+	Automatic search functionality to locate particular tool executable file using inteligent search algorithm/
+	Drag&drop files onto property enters path into combobox.
+Directory - same as file, but using folder choice dialog.
+Number - like string, but Combobox have 1. maximum text length 2. fixed, small width.
+Memo - multiline textbox. word wrap enabled or disabled. scrollbars always enabled.
+
+Disabling or hiding other properties based on value of some property, like Checked or value selected in enum.
+
+Property group.
+
+Dynamic creating and deleting properties.
+
+
+================================================================================
+Generic Command Script
+
+What is required:
+
+- Help button per property.
+
+Properties page:
+- Property: Executable file - file.
+- Property: Working directory - directory.
+- Property: Arguments - memo. Word wrap = false.
+
+Output page:
+- Label for:
+	- Result: %d (0x%08X)
+	- Duration: ##:##:##.####.
+- Output window - memo or RichTextBox. Word wrap = false. Monospaced font.
+  Automatically scrolled to bottom.
+    - Checkbox for Word wrap.
+    - Button to Find specified text in the textbox.
+    - Button for Copy All to Clipboard.
+    - Button for Save to File.
+- Back button.
+- Automatically scroll to bottom only if cursor is at the bottom.
+
+What do I need from TextBox/RichTextBox:
+- scrolling to bottom
+- adding a line
+- word wrap on/on - RichTextBox.WordWrap can be set at any time.
+- monospaced font - just set Font before adding text
+- Searching - RichTextBox.Find
+- Saving to file - RichTextBox.SaveFile
+
+
+================================================================================
+TechNote
+
+TextBox with BorderStyle=None, default font and one line of text has height 13.
+2 rows needs at least 26.
+That gives 13 pixels per row.

@@ -1,0 +1,44 @@
+.NET Framework
+================================================================================
+
+System directories like Desktop, Program Files:
+System.Environment.GetFolderPath class
+Example:
+	Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles)
+
+
+NoConsoleLib
+================================================================================
+
+Setting height of a Property must occur before adding it to Page.
+
+    MemoProperty memoProp = new MemoProperty();
+    memoProp.Height = 400;
+    m_ParamsPage.AddProperty( memoProp );
+
+Changing font of property title to bold to make it look like header:
+
+    Property headerProp = new Property();
+    m_ParamsPage.AddProperty( headerProp );
+    headerProp.Title = "Header Title";
+    headerProp.UseCheckbox = false;
+    headerProp.MyLabel.Font = Lib.BoldFont;
+
+Changing font of MemoProperty to monospaced:
+
+    memoProp.MyTextBox.Font = Lib.MonospacedFont;
+
+String property for a number:
+
+    StringProperty numProp = new StringProperty();
+    m_ParamsPage.AddProperty( numProp );
+    numProp.Title = "Number Property";
+    numProp.MaxLength = 10;
+    numProp.SetFixedWidth( 100 );
+
+Debug print to Visual Studio Output window:
+System.Diagnostics.Debug.WriteLine(s); doesn't work!
+Use instead:
+
+	Lib.DebugWriteLine(s);
+

@@ -1,7 +1,11 @@
 # NoConsole
 A framework enabling easy development of GUI interface for command-line based tools. Powered by C# scripts.
 
-Screenshots:
+## Download
+
+[Version 0.2](../../releases/tag/0.2)
+
+## Screenshots
 
 ![Screenshot 1](/Screenshots/Generic Command 1.png?raw=true)
 
